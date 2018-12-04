@@ -4,3 +4,10 @@
 	ci = commit
 	br = branch
 	rs = reset
+[user]
+	name = Allen Deng
+	email = allen.zt.d@gmail.com
+[core]
+	editor = vim
+[color]
+	ui = true
