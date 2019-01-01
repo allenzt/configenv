@@ -195,6 +195,9 @@ source ~/.vim/Plugins.vim
 "}---------------- ----------------- ----------------- -----------------
 
 "============ludovicchabant/vim-gutentags==============
+" enable gtags module
+let g:gutentags_modules = ['ctags', 'gtags_cscope']
+
 " gutentags search flag of work directory, if these flag exist, stop recursion upward
 let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 
@@ -214,6 +217,8 @@ let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 if !isdirectory(s:vim_tags)
    silent! call mkdir(s:vim_tags, 'p')
 endif
+" change focus to quickfix window after search (optional).
+let g:gutentags_plus_switch = 1
 
 "==========w0rp/ale==============
 let g:ale_sign_column_always = 1
@@ -395,5 +400,13 @@ noremap <c-f> :LeaderfFunction<cr>
 noremap <m-n> :LeaderfBuffer<cr>
 noremap <m-m> :LeaderfTag<cr>
 set noshowmode
+"let g:Lf_ReverseOrder = 1 " let result showed in buttom-top order
 "--------------echodoc-----------
 let g:echodoc#enable_at_startup=1
+
+"-------tenfyzhong/CompleteParameter.vim---------------
+inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+smap <c-l> <Plug>(complete_parameter#goto_next_parameter)
+imap <c-l> <Plug>(complete_parameter#goto_next_parameter)
+smap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
+imap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
