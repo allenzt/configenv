@@ -405,8 +405,8 @@ set noshowmode
 let g:echodoc#enable_at_startup=1
 
 "-------tenfyzhong/CompleteParameter.vim---------------
-inoremap <silent><expr> ( complete_parameter#pre_complete("()")
-smap <c-l> <Plug>(complete_parameter#goto_next_parameter)
-imap <c-l> <Plug>(complete_parameter#goto_next_parameter)
-smap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
-imap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
+"inoremap <silent><expr> ( complete_parameter#pre_complete("()")
+"smap <c-l> <Plug>(complete_parameter#goto_next_parameter)
+"imap <c-l> <Plug>(complete_parameter#goto_next_parameter)
+"smap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
+"imap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
