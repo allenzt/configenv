@@ -2,7 +2,6 @@
 
 #sudo echo "please use root privilege"
 
-
 tools_dir="$HOME/tools"
 
 #check and set up directory "tools" 
