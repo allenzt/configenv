@@ -47,7 +47,7 @@ set smartindent                                                   " indent when
 set tabstop=4                                                     " tab width
 set softtabstop=4                                                 " backspace
 set shiftwidth=4                                                  " indent width
-set textwidth=120                                                 " set how much number character in a line
+" set textwidth=120                                                 " set how much number character in a line
 set nowrap                                                        " dont wrap lines
 set smarttab
 set expandtab                                                     " expand tab to space
@@ -76,19 +76,19 @@ autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=
 autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
 autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
 " syntax support
-"autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
+autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
 " js
-"let g:html_indent_inctags = "html,body,head,tbody"
-" let g:html_indent_script1 = "inc"
-" let g:html_indent_style1 = "inc"
+let g:html_indent_inctags = "html,body,head,tbody"
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
 "Vertical alignment line
-"let g:indent_guides_enable_on_vim_startup = 1
-"let g:indent_guides_guide_size=1
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size=1
 " == vim Scroll horizontally shortcut keys===
 
 
 "===================global shortcut key map ================
-let mapleader=";"
+" let mapleader=";"
 " Keybindings for paste toggle
 nnoremap <F4> :set invpaste paste?<CR>
 set pastetoggle=<F4>
@@ -96,20 +96,14 @@ set pastetoggle=<F4>
 map <Leader>bl :MBEToggle<cr>
 "noremap <C-Tab> :MBEbn<CR>
 "noremap <C-S-Tab> :MBEbp<CR>
-noremap <Space>1 :b1<CR>
-noremap <Space>2 :b2<CR>
-noremap <Space>3 :b3<CR>
-noremap <Space>4 :b4<CR>
-noremap <Space>5 :b5<CR>
-noremap <Space>6 :b6<CR>
 noremap qq <C-W><C-W>
 "file undo
 nmap <Leader>u :GundoToggle<cr>
 " easier navigation between split windows
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+" nnoremap <c-j> <c-w>j
+" nnoremap <c-k> <c-w>k
+" nnoremap <c-h> <c-w>h
+" nnoremap <c-l> <c-w>l
 " w!! to sudo & write a file
 cmap w!! %!sudo tee >/dev/null %
 " Quickly edit/reload the vimrc file
@@ -118,13 +112,12 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 " remove tailing space
 :command CC 1,$s/\s\+$//g
 "eggcache vim
-"nnoremap ; :
-":command W w
-":command WQ wq
-":command Wq wq
-":command Q q
-":command Qa qa "退出全部窗口
-":command QA qa
+:command W w
+:command WQ wq
+:command Wq wq
+:command Q q
+:command Qa qa "exit all windows
+:command QA qa
 
 "===============useful hacking=========================
 
@@ -135,6 +128,7 @@ autocmd BufReadPost *
             \         exe "normal g'\"" |
             \     endif |
             \ endif
+
 "==================== code fold setting=================
 set foldenable
 set foldmethod=indent
@@ -144,13 +138,9 @@ set foldclose=all
 set foldlevelstart=99
 set foldopen-=search
 set foldopen-=undo
-
 "nnoremap <Space> @=((foldclosed(line('.'))<0)?'zc':'zo')<cr>
 
-" zc Open All Collapse
-" zm All Collapse
-
-"{---------------- ---------file title-------- ----------------- -------
+"---------------- ---------file title-------- ----------------- -------
 function AddMyTitle()
     call append(0,"/***********************************************************")
     call append(1,"* Author       : dztdeng")
@@ -189,36 +179,8 @@ endfunction
 
 map <C-i> :call TitleDet() <cr>'s
 
-                    "load plugin configration
-"{---------------- ----------------- ----------------- -----------------
+"load plugin configration
 source ~/.vim/Plugins.vim
-"}---------------- ----------------- ----------------- -----------------
-
-"============ludovicchabant/vim-gutentags==============
-" enable gtags module
-let g:gutentags_modules = ['ctags', 'gtags_cscope']
-
-" gutentags search flag of work directory, if these flag exist, stop recursion upward
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
-
-" generate data file name
-let g:gutentags_ctags_tagfile = '.tags'
-
-" put all tags file into ~/.cache/tags, Avoid pollution work directory
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-
-" configure parameters of ctags
-let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
-let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-
-" if ~/.cache/tags does not exist, create it
-if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
-endif
-" change focus to quickfix window after search (optional).
-let g:gutentags_plus_switch = 1
 
 "==========w0rp/ale==============
 let g:ale_sign_column_always = 1
@@ -262,9 +224,8 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-"}---------------- ----------------- ----------------- -------------------
 
-"{---------------- ------airline----- ----------------- ------------------
+"---------------- ------airline----- ----------------- ------------------
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -273,20 +234,20 @@ let g:airline#extensions#whitespace#symbol = '!'
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ''
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 let g:airline#extensions#tabline#buffer_min_count = 1
 "ShortCuts Keys for airline file buffer
 map <tab> :bn <cr>
 nnoremap <S-tab> :bp <cr>
-"}---------------- ----------------- ----------------- ------------------
+"---------------- ----------------- ----------------- ------------------
 
-"{---------------- ------Tagbar----- ----------------- ------------------
+"---------------- ------Tagbar----- ----------------- ------------------
 let g:tagbar_left=0
 let g:tagbar_width=30
 let g:tagbar_autofocus = 1
@@ -319,9 +280,8 @@ endif
 "shortcut key binding
 let g:tagbar_iconchars = ['+', '-']
 nmap <F2> :TagbarToggle<cr>
-"}
 
-"{-------------------------Nerd Tree-------------------------------------
+"-------------------------Nerd Tree-------------------------------------
 let NERDChristmasTree=0
 let NERDTreeWinSize=30
 let NERDTreeChDirMode=2
@@ -332,19 +292,34 @@ let NERDTreeWinPos = "right"
 let NERDTreeAutoDeleteBuffer=1
 "ShortCut Keys for Nerd Tree
 nmap <F3> :NERDTreeToggle <cr>
-"}
 
-"{-------------------------nerdcommenter---------------------------------
+"-------------------------nerdcommenter---------------------------------
 let NERDSpaceDelims=1
-" nmap <D-/> :NERDComToggleComment<cr>
+"nmap <D-/> :NERDComToggleComment<cr>
 let NERDCompactSexyComs=1
-"}---------------- ----------------- ----------------- ------------------
 
-"{------- -------- --------YouCompleteMe -------- -------- --------------
-" " YCM 补全菜单配色
-map gd :YcmCompleter GoToDefinition<CR>
-"map gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"========================LCN========================================
+let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_diagnosticsEnable = 0
+let g:LanguageClient_settingsPath = expand('~/.vim/languageclient.json')
+let g:LanguageClient_selectionUI = 'quickfix'
+let g:LanguageClient_diagnosticsList = v:null
+let g:LanguageClient_hoverPreview = 'Never'
+let g:LanguageClient_serverCommands = {}
+let g:LanguageClient_serverCommands.c = ['cquery']
+let g:LanguageClient_serverCommands.cpp = ['cquery']
+
+noremap <leader>rd :call LanguageClient#textDocument_definition()<cr>
+noremap <leader>rr :call LanguageClient#textDocument_references()<cr>
+noremap <leader>rv :call LanguageClient#textDocument_hover()<cr>
+
+"------- -------- --------YouCompleteMe -------- -------- --------------
+" map gd :YcmCompleter GoToDefinition<CR>
+map gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:ycm_confirm_extra_conf=0
+let g:ycm_use_clangd = 0
+let g:ycm_server_python_interpreter='/usr/bin/python3'
+"let g:ycm_clangd_binary_path = exepath('clangd')
 let g:ycm_collect_identifiers_from_tags_files=1
 let g:ycm_collect_identifiers_from_comments_and_strings = 0
 let g:ycm_min_num_of_chars_for_completion=2
@@ -356,12 +331,10 @@ let g:ycm_filetype_blacklist = {
        \ 'tagbar' : 1,
        \ 'nerdtree' : 1,
        \}
-let g:ycm_path_to_python_interpreter="/usr/bin/python"
+let g:ycm_path_to_python_interpreter="/usr/bin/python" 
 let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 0
-set tags+=./.tags;,.tags
-"set tags+=~/.vim/sys_tags
-"set tags+=`pwd`/tags
+set tags+=`pwd`/tags
 set completeopt=longest,menu
 set completeopt-=preview
 let g:ycm_semantic_triggers =  {
@@ -369,44 +342,29 @@ let g:ycm_semantic_triggers =  {
             \ 'cs,lua,javascript': ['re!\w{2}'],
             \ }
 let g:ycm_filetype_whitelist = { 
-			\ "c":1,
-			\ "h":1,
-			\ "cpp":1, 
-			\ "objc":1,
-			\ "sh":1,
-			\ "py":1,
-			\ "pl":1,
-			\ }
-"}
+            \ "c":1,
+            \ "h":1,
+            \ "cpp":1, 
+            \ "objc":1,
+            \ "sh":1,
+            \ "py":1,
+            \ "pl":1,
+            \ }
 
-"{------- -------- -------ultisnips---------- -------- -------- ---------
-" Plugin 'SirVer/ultisnips'
-"nmap <silent> <Leader>sw :FSHere<cr>
-"set runtimepath+=~/.vim/bundle/myultisnips
-let g:UltiSnipsSnippetDirectories=["mysnippets"]
-let g:UltiSnipsSnippetsDir='~/.vim/plugged/ultisnips/mysnippets'
-let g:UltiSnipsExpandTrigger="<Leader><tab>"
-let g:UltiSnipsJumpForwardTrigger="<Leader><tab>"
-let g:UltiSnipsJumpBackwardTrigger="<Leader><s-tab>"
-set ma
-map <F6> :UltiSnipsEdit<cr>
-"}
-"--------------leaderf-----------
-"let g:Lf_UseVersionControlTool = 0
-let g:Lf_ShortcutF = '<c-p>'
-let g:Lf_ShortcutB = '<m-n>'
-noremap <c-n> :LeaderfMru<cr>
-noremap <c-f> :LeaderfFunction<cr>
-noremap <m-n> :LeaderfBuffer<cr>
-noremap <m-m> :LeaderfTag<cr>
-set noshowmode
-"let g:Lf_ReverseOrder = 1 " let result showed in buttom-top order
-"--------------echodoc-----------
-let g:echodoc#enable_at_startup=1
-
-"-------tenfyzhong/CompleteParameter.vim---------------
-"inoremap <silent><expr> ( complete_parameter#pre_complete("()")
-"smap <c-l> <Plug>(complete_parameter#goto_next_parameter)
-"imap <c-l> <Plug>(complete_parameter#goto_next_parameter)
-"smap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
-"imap <c-h> <Plug>(complete_parameter#goto_previous_parameter)
+"----gtags setting ----
+let $GTAGSLABEL = 'native-pygments'
+" let $GTAGSLABEL = 'native'
+let $GTAGSCONF = '/home/dengzt/.gtagsrc' 
+let cscopeprg = 'gtags-cscope' 
+set cst
+let GtagsCscope_Auto_Load = 1
+let CtagsCscope_Auto_Map = 1
+let GtagsCscope_Quiet = 1
+nmap <leader>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap <leader>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <leader>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <leader>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <leader>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <leader>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap <leader>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap <leader>d :cs find d <C-R>=expand("<cword>")<CR><CR>
