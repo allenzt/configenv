@@ -81,4 +81,4 @@ ln -s $vim_dir/init.vim $HOME/.vimrc
 [[ -f $vim_dir ]] && {
     rm -rf $vim_dir
 }
-tar -cvf - vim | tar -xvf - -C $HOME && mv vim .vim
+tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
