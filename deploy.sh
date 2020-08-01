@@ -63,5 +63,15 @@ ln -s $vim_dir/init.vim $HOME/.vimrc
 }
 tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
 
+#Install ccls and Nodejs for ubuntu 16.04
+cat /etc/lsb-release  | grep -o 'Ubuntu 16.04'
+[ "$?" = "0" ] && {
+    echo "Install ccls for Ubuntu 16.04"
+    ln -sf $HOME/tools/ccls-ubuntu-16.04 ccls
+
+    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+    sudo apt install nodejs=12.18.3-1nodesource1
+}
+
 
 #######INSTALL END#######
