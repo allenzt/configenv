@@ -1,21 +1,5 @@
 #!/bin/sh
 
-#######DRY RUN FOR TEST#######
-# dry_run=0
-
-# while getopts 'n' opt; do
-#     case "$opt" in
-#         n) dry_run=1 ;;
-#         *) echo 'error in command line parsing' >&2
-#             exit 1
-#     esac
-# done
-
-# if [ "$dry_run" -eq 1 ]; then
-#     set -v
-#     set -n
-# fi
-
 #######INSTALL BEGIN#######
 
 #Install some utilities
@@ -44,19 +28,15 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 EOF
 echo "#===========end:user custom definition=========" >> bashrc
-
-if [[ -n ${DEBUG} ]]; then
-    echo "******************************************************"
-    diff -Nur ~/.bashrc bashrc
-    echo "******************************************************"
-    read -p "please confirm changes for .bashrc" tmp
-    cp bashrc ~/.bashrc
-fi
+cp bashrc ~/.bashrc && rm -rf bashrc
 
 #configure git setttings
 echo "Configure git setttings..."
-read -p "user name for git" username
-read -p "user email for git" useremail
+#read -p "user name for git" username
+#read -p "user email for git" useremail
+username="allen deng"
+useremail="allen.zt.d@gmail.com"
+
 git config --global user.name $username
 git config --global user.email $useremail
 git config --global core.editor vim
@@ -82,3 +62,6 @@ ln -s $vim_dir/init.vim $HOME/.vimrc
     rm -rf $vim_dir
 }
 tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
+
+
+#######INSTALL END#######
