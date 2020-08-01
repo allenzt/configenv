@@ -1,4 +1,4 @@
 #!/bin/sh
 
 export SOCKS5_PASSWD=""
-connect-proxy -S 192.168.2.1:1080 $@
+connect-proxy -S 192.168.5.1:23456 $@

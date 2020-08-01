@@ -6,7 +6,7 @@ line=$(echo "$@" | awk -F: '{print $2}' | sed -n '/^[0-9][0-9]*$/p')
 # echo $file
 # echo ==$line===
 if [ -n "$line" ]; then
-    vim "$file" +"$line"
+    vi "$file" +"$line"
 else
-    vim $file
+    vi $file
 fi
