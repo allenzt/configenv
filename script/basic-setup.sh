@@ -7,7 +7,14 @@ sudo sed -i -e 's|cn.archive.ubuntu.com|mirrors.tuna.tsinghua.edu.cn|g' -e 's|ar
 sudo apt update && sudo apt upgrade
 
 #install build-essential
-sudo apt install build-essential
+sudo apt install build-essential tig
 
 #install vim
 #refer to ./install-vim-from-source.sh
+
+#config samba share
+sudo mkdir /tftpboot
+chmod 777 /tftpboot
+sudo chown -R dengzt:dengzt /tftpboot
+sudo cp smb.conf /etc/samba/smb.conf
+sudo smbpasswd -a dengzt
