@@ -7,7 +7,7 @@ sudo sed -i -e 's|cn.archive.ubuntu.com|mirrors.tuna.tsinghua.edu.cn|g' -e 's|ar
 sudo apt update && sudo apt upgrade
 
 #install build-essential
-sudo apt install build-essential tig tmux
+sudo apt install build-essential tig tmux bear
 
 #install vim
 #refer to ./install-vim-from-source.sh
