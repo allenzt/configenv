@@ -5,9 +5,6 @@
 #install dependency
 sudo apt install libncurses5-dev python-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev libperl-dev git
 
-#remove old vim
-sudo apt remove $(dpkg -l | grep vim | awk '{print $2}' | xargs)
-
 cd ~
 git clone https://github.com/vim/vim.git vim-source
 [ "$?" != "0" ] && echo "clone failed, exit" && exit
@@ -27,6 +24,11 @@ cd vim-source
             --prefix=/usr
 
 sudo make V=s
+
+#remove old vim
+sudo apt remove $(dpkg -l | grep vim | awk '{print $2}' | xargs)
+
+#install
 sudo make install
 
 cd ~
