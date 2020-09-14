@@ -102,5 +102,8 @@ Plug 'tpope/vim-repeat'
 " " vim中文文档
 Plug 'yianwillis/vimcdoc'
 
+"gtags script
+Plug 'joereynolds/gtags-scope'
+
 call plug#end()
 

@@ -60,11 +60,11 @@ set backspace=indent,eol,start                                    " More powerfu
 """"""""""""""""""""""""""""""""""""""""
 "        gtags-cscope setting
 """""""""""""""""""""""""""""""""""""""""
-let $GTAGSLABEL = 'native-pygments'
-"let $GTAGSLABEL = 'native'
-let $GTAGSCONF = '/home/dengzt/.gtagsrc'
-let cscopeprg = 'gtags-cscope'
-set csto=1
+" let $GTAGSLABEL = 'native-pygments'
+let $GTAGSLABEL = 'native'
+" let $GTAGSCONF = '/home/dengzt/.gtagsrc'
+let cscopeprg = '/usr/bin/gtags-cscope'
+set csto=0
 set cst
 let GtagsCscope_Auto_Load = 1
 let CtagsCscope_Auto_Map = 1

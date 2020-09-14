@@ -34,8 +34,8 @@ cp bashrc ~/.bashrc && rm -rf bashrc
 echo "Configure git setttings..."
 #read -p "user name for git" username
 #read -p "user email for git" useremail
-username="allen deng"
-useremail="allen.zt.d@gmail.com"
+username="deng zhitian"
+useremail="dengzt@inhand.com.cn"
 
 git config --global user.name $username
 git config --global user.email $useremail

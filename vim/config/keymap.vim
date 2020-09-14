@@ -35,11 +35,11 @@ nmap <silent> <C-k> <Plug>(ale_next_wrap)
 " nmap <M-l> <Plug>AirlineSelectNextTab
 
 "------------------------------------------- leaderf
-nnoremap <C-F> :LeaderfFile<CR>
+" nnoremap <C-F> :LeaderfFile<CR>
 nnoremap <C-f> :LeaderfFunction<CR>
-nnoremap <C-l> :LeaderfLine<CR>
-nnoremap <C-B> :LeaderfBufferTag<CR>
-nnoremap <C-r> :LeaderfMru<CR>
+" nnoremap <C-l> :LeaderfLine<CR>
+" nnoremap <C-B> :LeaderfBufferTag<CR>
+" nnoremap <C-r> :LeaderfMru<CR>
 
 "函数搜索（仅当前文件里）
 nnoremap <silent> <Leader>f :Leaderf function<CR>

@@ -1,18 +1,18 @@
 {
     "coc.preferences.colorSupport": true,
-    "suggest.triggerAfterInsertEnter": true,
-    "suggest.timeout": 300,
-    "suggest.noselect": true,
-    "suggest.detailField": "abbr",
-    "suggest.triggerCompletionWait": 50,
-    "suggest.snippetIndicator": "✔",
+    //"suggest.triggerAfterInsertEnter": true,
+    //"suggest.timeout": 300,
+    //"suggest.noselect": true,
+    //"suggest.detailField": "abbr",
+    //"suggest.triggerCompletionWait": 50,
+    //"suggest.snippetIndicator": "✔",
     //"diagnostic.displayByAle": true,
-    "diagnostic.refreshOnInsertMode": true, // 插入模式也可以使用diagnostic
-    "diagnostic.signOffset": 999999,
-    "diagnostic.errorSign": "✖",
-    "diagnostic.warningSign": "ϟ",
-    "python.autoComplete.addBrackets": true,
-    "python.jediEnabled": true,
+    //"diagnostic.refreshOnInsertMode": true, // 插入模式也可以使用diagnostic
+    //"diagnostic.signOffset": 999999,
+    //"diagnostic.errorSign": "✖",
+    //"diagnostic.warningSign": "ϟ",
+    //"python.autoComplete.addBrackets": true,
+    //"python.jediEnabled": true,
     "highlight.colors.enable": true,
     "highlight.document.enable": true,
     // prettier
@@ -22,7 +22,7 @@
     // lsp
     "languageserver": {
 
-        // 安装bash-language-server
+        //install bash-language-server
         "bash": {
             "command": "bash-language-server",
             "args": [
@@ -36,9 +36,10 @@
             ]
         },
 
-        // 安装ccls
+        // install ccls
         "ccls": {
             "command": "ccls",
+            "args": ["--log-file=/tmp/ccls.log"],
             "filetypes": [
                 "c",
                 "cpp",
@@ -47,12 +48,12 @@
                 "objcpp"
             ],
             "rootPatterns": [
-                ".clang",
-                ".ccls",
+                //".clang",
+                //".ccls",
                 "compile_commands.json",
-                ".vim/",
-                ".git/",
-                ".svn/",
+                //".vim/",
+                //".git/",
+                //".svn/",
                 ".hg/"
             ],
             "initializationOptions": {
@@ -60,20 +61,6 @@
                     "directory": ".ccls-cache"
                 }
             }
-        },
-
-        // jdt
-        "java": {
-            "command": "jdtls",
-            "filetypes": [
-                "java",
-                "class"
-            ],
-            "rootPatterns": [
-                "maven",
-                ".git",
-                ".vim"
-            ]
         }
     }
 }
