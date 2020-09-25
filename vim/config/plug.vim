@@ -48,6 +48,7 @@ Plug 'vim-scripts/DoxygenToolkit.vim', {'on': ['Dox', 'DoxAuthor', 'DoxBlock', '
 " "}}
 
 " "{{---------beautify
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'Yggdroot/indentLine', { 'for': ['asm', 'h', 'hpp', 'c', 'cpp', 'python', 'js', 'ts', 'java', 'go', 'html', 'css', 'vim', 'sh', 'tex']}
 Plug 'luochen1990/rainbow'
 " Plug 'mhinz/vim-startify'
@@ -70,7 +71,8 @@ Plug 'sheerun/vim-polyglot'
 " "{{----------tools
 Plug 'majutsushi/tagbar',  { 'for': ['asm', 'h', 'hpp', 'c', 'cpp', 'python', 'js', 'ts', 'java', 'go', 'html', 'css', 'vim', 'sh', 'tex', 'md'] }
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 " " visual 增强
 "Plug 'terryma/vim-expand-region'
 " " undo
