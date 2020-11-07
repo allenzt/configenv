@@ -70,7 +70,8 @@ Plug 'sheerun/vim-polyglot'
 " "{{----------tools
 Plug 'majutsushi/tagbar',  { 'for': ['asm', 'h', 'hpp', 'c', 'cpp', 'python', 'js', 'ts', 'java', 'go', 'html', 'css', 'vim', 'sh', 'tex', 'md'] }
 Plug 'jiangmiao/auto-pairs'
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 " " visual 增强
 "Plug 'terryma/vim-expand-region'
 " " undo
@@ -101,6 +102,9 @@ Plug 'tpope/vim-repeat'
 " Plug 'voldikss/vim-translate-me', {'on': ['<Plug>Translate', '<Plug>TranslateW']  }
 " " vim中文文档
 Plug 'yianwillis/vimcdoc'
+
+"gtags script
+Plug 'joereynolds/gtags-scope'
 
 call plug#end()
 
