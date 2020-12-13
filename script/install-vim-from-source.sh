@@ -4,13 +4,12 @@
 
 distro_version=$(cat /etc/lsb-release  | grep DISTRIB_RELEASE | awk -F= '{print $NF}')
 [ -z "${distro_version}" ] && echo "\033[40;31mERROR: can not detect linux distro version, exit\033[0m" && exit
-exit
 
 #install dependency
 if [ "${distro_version}" = "20.04" ]; then
-    sudo apt install libncurses5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git
+    sudo apt install libncurses5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git -y
 elif [ "${distro_version}" = "16.04" ]; then
-    sudo apt install libncurses5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev libperl-dev git
+    sudo apt install libncurses5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev libperl-dev git -y
 fi
 
 cd ~
@@ -35,9 +34,12 @@ sudo make V=s
 
 #remove old vim
 sudo apt remove $(dpkg -l | grep vim | awk '{print $2}' | xargs)
+sudo dpkg --list |grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge
 
 #install
-sudo make install
+sudo apt install checkinstall -y
+#sudo make install
+sudo checkinstall -D
 
 cd ~
 sudo rm -rf vim-source
