@@ -84,4 +84,8 @@ esac
 
 cd ${HOME}/.config/coc/extensions/node_modules/coc-ccls && ln -s node_modules/ws/lib
 sudo npm i -g bash-language-server
+
+#Install tmux
+sudo apt install tmux
+cp tmux.conf ${HOME}/.tmux.conf
 #######INSTALL END#######
