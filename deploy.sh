@@ -3,8 +3,8 @@
 #######INSTALL BEGIN#######
 
 #Install some utilities
-tools_dir="$HOME/tools"
 echo "Install some utilities ..."
+tools_dir="$HOME/tools"
 [[ -d $tools_dir ]] && {
     rm -rf $tools_dir
 }
@@ -34,8 +34,8 @@ cp bashrc ~/.bashrc && rm -rf bashrc
 echo "Configure git setttings..."
 #read -p "user name for git" username
 #read -p "user email for git" useremail
-username="deng zhitian"
-useremail="dengzt@inhand.com.cn"
+username="allen deng"
+useremail="allen.zt.d@gmail.com"
 
 git config --global user.name $username
 git config --global user.email $useremail
@@ -64,14 +64,16 @@ ln -s $vim_dir/init.vim $HOME/.vimrc
 tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
 
 #Install ccls and Nodejs for ubuntu 16.04
-cat /etc/lsb-release  | grep -o 'Ubuntu 16.04'
 DISTRO_ID=$(cat /etc/lsb-release  | grep DISTRIB_ID | awk -F= '{print $NF}')
 DISTRO_RELEASE=$(cat /etc/lsb-release  | grep DISTRIB_RELEASE | awk -F= '{print $NF}')
 
+#install utils
+sudo apt install curl git -y
+
 case "${DISTRO_ID}-${DISTRO_RELEASE}" in
-    Ubuntu-20.04)
-        curl -sL install-node.now.sh/lts | bash
+    Ubuntu-20.04|Ubuntu-20.10)
         sudo apt install ccls
+        curl -sL install-node.now.sh/lts | sudo bash
         ;;
     Ubuntu-16.04)
         echo "Install ccls for Ubuntu 16.04"
@@ -86,6 +88,6 @@ cd ${HOME}/.config/coc/extensions/node_modules/coc-ccls && ln -s node_modules/ws
 sudo npm i -g bash-language-server
 
 #Install tmux
-sudo apt install tmux
+sudo apt install tmux -y
 cp tmux.conf ${HOME}/.tmux.conf
 #######INSTALL END#######
