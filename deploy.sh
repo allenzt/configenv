@@ -10,23 +10,28 @@ tools_dir="$HOME/tools"
 }
 tar -cvf - tools | tar -xvf - -C $HOME
 
+#install utils
+sudo apt install curl git tig -y
+
 #configure bashrc for bash
 echo "Add custom changes to .bashrc file ..."
 cp ~/.bashrc bashrc
 echo "#===========begin:user custom definition=========" >> bashrc
 echo "alias grep='grep -nr --color=auto' --exclude-dir=.ccls-cache" >> bashrc
 echo "alias rm='rm -i'" >> bashrc
+#use 256 color
+echo "alias man=\"LESS_TERMCAP_mb=$'\e[01;31m' LESS_TERMCAP_md=$'\e[01;38;5;170m' LESS_TERMCAP_me=$'\e[0m' LESS_TERMCAP_se=$'\e[0m' LESS_TERMCAP_so=$'\e[38;5;246m' LESS_TERMCAP_ue=$'\e[0m' LESS_TERMCAP_us=$'\e[04;38;5;74m' man\"" >>bashrc
 echo "source $tools_dir/aliasfile" >> bashrc
 echo "PATH=$PATH:$tools_dir" >> bashrc
 
-cat >> bashrc <<'EOF'
-export LESS_TERMCAP_md=$'\E[01;31m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;44;33m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;32m'
-EOF
+# cat >> bashrc <<'EOF'
+# export LESS_TERMCAP_md=$'\E[01;31m'
+# export LESS_TERMCAP_me=$'\E[0m'
+# export LESS_TERMCAP_se=$'\E[0m'
+# export LESS_TERMCAP_so=$'\E[01;44;33m'
+# export LESS_TERMCAP_ue=$'\E[0m'
+# export LESS_TERMCAP_us=$'\E[01;32m'
+# EOF
 echo "#===========end:user custom definition=========" >> bashrc
 cp bashrc ~/.bashrc && rm -rf bashrc
 
@@ -66,9 +71,6 @@ tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
 #Install ccls and Nodejs for ubuntu 16.04
 DISTRO_ID=$(cat /etc/lsb-release  | grep DISTRIB_ID | awk -F= '{print $NF}')
 DISTRO_RELEASE=$(cat /etc/lsb-release  | grep DISTRIB_RELEASE | awk -F= '{print $NF}')
-
-#install utils
-sudo apt install curl git -y
 
 case "${DISTRO_ID}-${DISTRO_RELEASE}" in
     Ubuntu-20.04|Ubuntu-20.10)
