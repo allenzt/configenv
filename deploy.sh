@@ -17,7 +17,7 @@ sudo apt install curl git tig -y
 echo "Add custom changes to .bashrc file ..."
 cp ~/.bashrc bashrc
 echo "#===========begin:user custom definition=========" >> bashrc
-echo "alias grep='grep -nr --color=auto' --exclude-dir=.ccls-cache" >> bashrc
+echo "alias g='grep -nr --color=auto --exclude-dir=.ccls-cache'" >> bashrc
 echo "alias rm='rm -i'" >> bashrc
 #use 256 color
 echo "alias man=\"LESS_TERMCAP_mb=$'\e[01;31m' LESS_TERMCAP_md=$'\e[01;38;5;170m' LESS_TERMCAP_me=$'\e[0m' LESS_TERMCAP_se=$'\e[0m' LESS_TERMCAP_so=$'\e[38;5;246m' LESS_TERMCAP_ue=$'\e[0m' LESS_TERMCAP_us=$'\e[04;38;5;74m' man\"" >>bashrc
