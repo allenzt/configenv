@@ -14,7 +14,7 @@ tar -cvf - tools | tar -xvf - -C $HOME
 echo "Add custom changes to .bashrc file ..."
 cp ~/.bashrc bashrc
 echo "#===========begin:user custom definition=========" >> bashrc
-echo "alias grep='grep -nr --color=auto' --exclude-dir=.ccls-cache" >> bashrc
+echo "alias g='grep -nr --color=auto' --exclude-dir=.ccls-cache" >> bashrc
 echo "alias rm='rm -i'" >> bashrc
 echo "source $tools_dir/aliasfile" >> bashrc
 echo "PATH=$PATH:$tools_dir" >> bashrc
@@ -34,8 +34,8 @@ cp bashrc ~/.bashrc && rm -rf bashrc
 echo "Configure git setttings..."
 #read -p "user name for git" username
 #read -p "user email for git" useremail
-username="deng zhitian"
-useremail="dengzt@inhand.com.cn"
+username="allen deng"
+useremail="allen.zt.d@gmail.com"
 
 git config --global user.name $username
 git config --global user.email $useremail
