@@ -1,0 +1,14 @@
+#!/usr/bin/expect
+set timeout 20
+
+set ipaddress [lindex $argv 0]  #read args from command line
+if {$ipaddress eq ""} {set ipaddress 192.168.5.199} #if ipaddress is empty, set it to 192.168.5.199
+set username [lindex $argv 0]
+if {$username eq ""} {set username dengzt}
+set password [lindex $argv 0]
+if {$password eq ""} {set password 123456}
+
+spawn ssh $username@$ipaddress
+expect "*assword: "
+send "$password\r"
+interact
