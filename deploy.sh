@@ -71,6 +71,10 @@ configure_vim(){
 		sudo apt install ccls
 		curl -sL install-node.now.sh/lts | sudo bash
 		;;
+	    Ubuntu-18.04)
+		ln -sf $HOME/tools/ccls-ubuntu-18.04 ccls
+		curl -sL install-node.now.sh/lts | sudo bash
+		;;
 	    Ubuntu-16.04)
 		echo "Install ccls for Ubuntu 16.04"
 		ln -sf $HOME/tools/ccls-ubuntu-16.04 ccls
@@ -108,7 +112,7 @@ DISTRO_ID=$(cat /etc/lsb-release  | grep DISTRIB_ID | awk -F= '{print $NF}')
 DISTRO_RELEASE=$(cat /etc/lsb-release  | grep DISTRIB_RELEASE | awk -F= '{print $NF}')
 
 case "${DISTRO_ID}-${DISTRO_RELEASE}" in
-    Ubuntu-21.04|Ubuntu-20.04|Ubuntu-20.10|Ubuntu-16.04)
+    Ubuntu-21.04|Ubuntu-20.04|Ubuntu-20.10|Ubuntu-18.04|Ubuntu-16.04)
 	    DISTRO_SUPPORT="${DISTRO_ID}-${DISTRO_RELEASE}"
 	;;
     *)

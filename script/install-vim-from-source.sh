@@ -10,7 +10,7 @@ case ${distro_version} in
 	"20.04"|"20.10")
 		sudo apt install libncurses5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git -y
 		;;
-	"16.04")
+	"18.04"|"16.04")
 		sudo apt install libncurses5-dev python3-dev ruby-dev lua5.1 liblua5.1-0-dev libperl-dev git -y
 		;;
 	*)
@@ -49,6 +49,9 @@ sudo apt purge xxd -y
 sudo apt install checkinstall -y
 #sudo make install
 sudo checkinstall -D
+
+# checkinstall error
+#error in 'Version' field string 'source-1': version number does not start with digit
 
 cd ~
 sudo rm -rf vim-source
