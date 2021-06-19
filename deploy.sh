@@ -9,7 +9,7 @@ install_utilities(){
 	}
 	tar -cvf - tools | tar -xvf - -C $HOME
 
-	sudo apt install curl git tig tmux universal-ctags global -y
+	sudo apt install curl git tig tmux universal-ctags global expect -y
 	cp tmux.conf ${HOME}/.tmux.conf
 }
 
