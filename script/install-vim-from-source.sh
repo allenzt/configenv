@@ -39,7 +39,7 @@ cd vim-source
 sudo make V=s
 
 #remove old vim
-sudo apt purge $(dpkg -l | grep vim | awk '{print $2}' | xargs)
+sudo apt purge $(dpkg -l | grep vim | awk '{print $2}' | xargs) -y
 sudo dpkg --list |grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge
 
 #remove xxd packege to fiix dependency issue

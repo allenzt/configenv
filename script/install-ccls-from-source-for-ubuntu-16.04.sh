@@ -9,21 +9,24 @@ tar -Jxv -f clang+llvm-7.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 sudo apt update
-sudo apt install g++-7 -y
+sudo apt install g++-7 libssl-dev -y --no-install-recommends
 
 #upgrade cmake
 sudo apt remove $(dpkg -l | grep cmake | awk '{print $2}' | xargs)
 wget https://github.com/Kitware/CMake/releases/download/v3.18.1/cmake-3.18.1.tar.gz
 tar -zxv -f cmake-3.18.1.tar.gz
+cd cmake-3.18.1
 ./configure --prefix=/usr
 make
 sudo make install
 
 #Install ccls
 git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+cd ccls
 cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=${HOME}/clang+llvm-7.0.1-x86_64-linux-gnu-ubuntu-16.04 -DCMAKE_CXX_COMPILER=/usr/bin/g++-7
-cp Release/ccls ~/tools
+cd Release
+make V=s
+cp ccls ~/tools/ccls-ubuntu-16.04
 
-#Fix some issues
-(cd ${HOME}/.config/coc/extensions/node_modules/coc-ccls ln -s node_modules/ws/lib lib)
-npm i -g bash-language-server
+#clean
+rm -rf ${HOME}/ccls ${HOME}/cmake-3.18.1.*

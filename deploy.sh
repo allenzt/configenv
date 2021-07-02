@@ -79,8 +79,7 @@ configure_vim(){
 		echo "Install ccls for Ubuntu 16.04"
 		ln -sf $HOME/tools/ccls-ubuntu-16.04 ccls
 
-		curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-		sudo apt install nodejs=12.18.3-1nodesource1
+		curl -sL install-node.now.sh/lts | sudo bash
 		;;
 	    *)
 		echo "Unspported DISTRO version, exit ..."
