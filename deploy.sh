@@ -9,7 +9,7 @@ install_utilities(){
 	}
 	tar -cvf - tools | tar -xvf - -C $HOME
 
-	sudo apt install curl git tig tmux universal-ctags global expect -y
+	sudo apt install curl git tig tmux universal-ctags global expect bear global -y
 	cp tmux.conf ${HOME}/.tmux.conf
 }
 
@@ -94,12 +94,12 @@ configure_vim(){
 	vimrc_file="$HOME/.vimrc"
 	vim_dir="$HOME/.vim"
 
-	[[ -f $vimrc_file ]] && {
+	[ -f $vimrc_file ] && {
 	    rm -rf $vimrc_file
 	}
 	ln -s $vim_dir/init.vim $HOME/.vimrc
 
-	[[ -f $vim_dir ]] && {
+	[ -f $vim_dir ] && {
 	    rm -rf $vim_dir
 	}
 	tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim

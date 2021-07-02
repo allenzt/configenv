@@ -11,6 +11,8 @@ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=clang++-8 -D
 cp Release/ccls ~/tools
 
 #Fix some issues
-cd ~/.config/coc/extensions/node_modules/coc-ccls
-ln -s node_modules/ws/lib lib
+cd ~/.config/coc/extensions/node_modules/coc-ccls && ln -s node_modules/ws/lib lib
 npm i -g bash-language-server
+
+#clean
+rm -rf ccls
