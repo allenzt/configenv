@@ -47,8 +47,9 @@ sudo apt purge xxd -y
 
 #install
 sudo apt install checkinstall -y
-#sudo make install
-sudo checkinstall -D
+VIM_VER=$(git describe --tags --abbrev=0 | tr -d "v")
+#sudo checkinstall -D --pkgname vimzt --pkgversion ${VIM_VER} --install=no -y //no install
+sudo checkinstall -D --pkgname vimzt --pkgversion ${VIM_VER} -y
 
 # checkinstall error
 #error in 'Version' field string 'source-1': version number does not start with digit
