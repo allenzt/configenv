@@ -1,66 +1,55 @@
 {
-    "coc.preferences.colorSupport": true,
-    //"suggest.triggerAfterInsertEnter": true,
-    //"suggest.timeout": 300,
-    //"suggest.noselect": true,
-    //"suggest.detailField": "abbr",
-    //"suggest.triggerCompletionWait": 50,
-    //"suggest.snippetIndicator": "✔",
-    //"diagnostic.displayByAle": true,
-    //"diagnostic.refreshOnInsertMode": true, // 插入模式也可以使用diagnostic
-    //"diagnostic.signOffset": 999999,
-    //"diagnostic.errorSign": "✖",
-    //"diagnostic.warningSign": "ϟ",
-    //"python.autoComplete.addBrackets": true,
-    //"python.jediEnabled": true,
-    "highlight.colors.enable": true,
-    "highlight.document.enable": true,
-    // prettier
-    //"prettier.tabWidth": 4,
-    //"prettier.printWidth": 80,
-
-    // lsp
-    "languageserver": {
-
-        //install bash-language-server
-        "bash": {
-            "command": "bash-language-server",
-            "args": [
-                "start"
-            ],
-            "filetypes": [
-                "sh"
-            ],
-            "ignoredRootPaths": [
-                "~"
-            ]
-        },
-
-        // install ccls
-        "ccls": {
-            "command": "ccls",
-            "args": ["--log-file=/tmp/ccls.log"],
-            "filetypes": [
-                "c",
-                "cpp",
-                "cuda",
-                "objc",
-                "objcpp"
-            ],
-            "rootPatterns": [
-                //".clang",
-                //".ccls",
-                "compile_commands.json",
-                //".vim/",
-                //".git/",
-                //".svn/",
-                ".hg/"
-            ],
-            "initializationOptions": {
-                "cache": {
-                    "directory": ".ccls-cache"
-                }
-            }
-        }
-    }
+	"coc.preferences.colorSupport": true,
+	"coc.preferences.enableFloatHighlight": true,
+	"coc.preferences.snippetStatusText": "Ⓢ ",
+	"coc.preferences.extensionUpdateCheck": "daily",
+	"coc.preferences.messageLevel": "error",
+	"coc.source.around.firstMatch": false,
+	"coc.source.buffer.firstMatch": false,
+	"suggest.detailMaxLength": 60,
+	"suggest.noselect": true,
+	"suggest.enablePreselect": false,
+	"suggest.triggerAfterInsertEnter": true,
+	"suggest.autoTrigger": "always",
+	"suggest.timeout": 500,
+	"suggest.enablePreview": true,
+	"suggest.floatEnable": true,
+	"suggest.detailField": "preview",
+	"suggest.snippetIndicator": "",
+	"suggest.triggerCompletionWait": 100,
+	"suggest.echodocSupport": true,
+	"codeLens.enable": false,
+	"list.previewHighlightGroup": "Statement",
+	"languageserver": {
+		"bash": {
+			"command": "bash-language-server",
+			"args": [
+				"start"
+			],
+			"filetypes": [
+				"sh"
+			],
+			"ignoredRootPaths": []
+		},
+		"ccls": {
+			"command": "ccls",
+			"filetypes": [
+				"c",
+				"cpp",
+				"cuda",
+				"objc",
+				"objcpp"
+			],
+			"rootPatterns": [
+				".ccls",
+				".ccls-root",
+				"compile_commands.json"
+			],
+			"initializationOptions": {
+				"cache": {
+					"directory": "/tmp/ccls"
+				}
+			}
+		}
+	}
 }

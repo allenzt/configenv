@@ -22,6 +22,7 @@ endif
 "----------------------------------------------------------------------
 " 备份设置
 "----------------------------------------------------------------------
+set hidden
 
 " 允许备份
 set backup
@@ -71,10 +72,10 @@ autocmd BufReadPost *
 	\ endif
 
 " 定义一个 DiffOrig 命令用于查看文件改动
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-          \ | wincmd p | diffthis
-endif
+" if !exists(":DiffOrig")
+"   command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+"           \ | wincmd p | diffthis
+" endif
 
 
 
@@ -86,8 +87,8 @@ augroup InitFileTypesGroup
 	" 清除同组的历史 autocommand
 	au!
 
-	" C/C++ 文件使用 // 作为注释
-	au FileType c,cpp setlocal commentstring=//\ %s
+	" C/C++ 文件使用 /* */ 作为注释
+	au FileType c,cpp setlocal commentstring=/*\ %s\ */
 
 	" markdown 允许自动换行
 	au FileType markdown setlocal wrap

@@ -54,10 +54,11 @@ set termguicolors
 " color desert256
 " color desert256v2
 " color onedark "需要手动安装和卸载,请参考：https://github.com/joshdick/onedark.vim
-let g:gruvbox_plugin_hi_groups=1
-color gruvbox8
+" let g:gruvbox_plugin_hi_groups=1
+" color gruvbox8
 " color gruvbox
 " color space-vim-dark
+colorscheme codedark
 
 
 "----------------------------------------------------------------------

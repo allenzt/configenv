@@ -14,9 +14,18 @@
 " 默认情况下的分组，可以再前面覆盖之
 "----------------------------------------------------------------------
 if !exists('g:bundle_group')
-	let g:bundle_group = ['basic', 'enhanced', 'filetypes', 'textobj']
-	let g:bundle_group += ['gtags-cscope', 'lightline', 'nerdtree']
-	let g:bundle_group += ['tagbar', 'leaderf', 'coc']
+	let g:bundle_group = ['basic',
+						\ 'enhanced', 
+						\ 'filetypes',
+						\ 'textobj', 
+						\ 'gtags-cscope', 
+						\ 'nerdtree', 
+						\ 'tagbar', 
+						\ 'leaderf', 
+						\ 'coc', 
+						\ 'lightline', 
+						\ 'theme', 
+						\ ]
 endif
 
 
@@ -143,8 +152,12 @@ if index(g:bundle_group, 'basic') >= 0
 	" 展示开始画面，显示最近编辑过的文件
 	Plug 'mhinz/vim-startify'
 
+	" 默认显示 startify
+	let g:startify_disable_at_vimenter = 0
+	let g:startify_session_dir = '~/.vim/session'
+
 	" 一次性安装一大堆 colorscheme
-	Plug 'flazz/vim-colorschemes'
+	" Plug 'flazz/vim-colorschemes'
 
 	" 支持库，给其他插件用的函数库
 	Plug 'xolox/vim-misc'
@@ -173,10 +186,6 @@ if index(g:bundle_group, 'basic') >= 0
 
 	" 使用 ALT+E 来选择窗口
 	" nmap <m-e> <Plug>(choosewin)
-
-	" 默认不显示 startify
-	let g:startify_disable_at_vimenter = 1
-	let g:startify_session_dir = '~/.vim/session'
 
 	" 使用 <space>ha 清除 errormarker 标注的错误
 	" noremap <silent><space>ha :RemoveErrorMarkers<cr>
@@ -214,7 +223,7 @@ if index(g:bundle_group, 'enhanced') >= 0
 	" Plug 'wsdjeg/FlyGrep.vim'
 
 	" 使用 :CtrlSF 命令进行模仿 sublime 的 grep
-	Plug 'dyng/ctrlsf.vim'
+	" Plug 'dyng/ctrlsf.vim'
 
 	" 配对括号和引号自动补全
 	Plug 'jiangmiao/auto-pairs'
@@ -368,7 +377,7 @@ endif
 if index(g:bundle_group, 'filetypes') >= 0
 
 	" powershell 脚本文件的语法高亮
-	Plug 'pprovost/vim-ps1', { 'for': 'ps1' }
+	" Plug 'pprovost/vim-ps1', { 'for': 'ps1' }
 
 	" lua 语法高亮增强
 	Plug 'tbastos/vim-lua', { 'for': 'lua' }
@@ -386,7 +395,7 @@ if index(g:bundle_group, 'filetypes') >= 0
 	Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 
 	" vim org-mode 
-	Plug 'jceb/vim-orgmode', { 'for': 'org' }
+	" Plug 'jceb/vim-orgmode', { 'for': 'org' }
 endif
 
 
@@ -411,11 +420,14 @@ if index(g:bundle_group, 'airline') >= 0
 	let g:airline#extensions#vimagit#enabled = 0
 endif
 
+"----------------------------------------------------------------------
+" lightline
+"----------------------------------------------------------------------
 if index(g:bundle_group, 'lightline') >= 0
 	Plug 'itchyny/lightline.vim'
 	Plug 'ap/vim-buftabline'
 	let g:lightline = {
-		  \ 'colorscheme': 'gruvbox8',
+		  \ 'colorscheme': 'codedark',
 		  \ 'active': {
 		  \   'left': [ [ 'mode', 'paste' ],
 		  \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
@@ -558,7 +570,7 @@ endif
 if index(g:bundle_group, 'leaderf') >= 0
 	" 如果 vim 支持 python 则启用  Leaderf
 	if has('python') || has('python3')
-		Plug 'Yggdroot/LeaderF'
+		Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 
 		" CTRL+p 打开文件模糊匹配
 		let g:Lf_ShortcutF = '<c-p>'
@@ -583,6 +595,9 @@ if index(g:bundle_group, 'leaderf') >= 0
 
 		" 最大历史文件保存 2048 个
 		let g:Lf_MruMaxFiles = 2048
+
+		" LeaderF 窗口的位置
+		let g:Lf_WindowPosition = 'popup'
 
 		" ui 定制
 		let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
@@ -621,7 +636,32 @@ if index(g:bundle_group, 'leaderf') >= 0
 				\ "BufTag": [["<ESC>", ':exec g:Lf_py "bufTagExplManager.quit()"<cr>']],
 				\ "Function": [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<cr>']],
 				\ }
+		" 在根目录搜索光标下的单词, 正则模式, 然后进入normal 模式
+		noremap <F2> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
 
+		" 在当前buffer搜索光标下的单词, 正则模式, 然后进入normal 模式
+		" noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer -e %s ", expand("<cword>"))<CR>
+
+		" 在所有buffer搜索光标下的单词, 正则模式, 然后进入normal 模式
+		" noremap <C-D> :<C-U><C-R>=printf("Leaderf! rg -F --all-buffers -e %s ", expand("<cword>"))<CR>
+
+		" search visually selected text literally, don't quit LeaderF after accepting an entry
+		" xnoremap gf :<C-U><C-R>=printf("Leaderf! rg -F --stayOpen -e %s ", leaderf#Rg#visual())<CR>
+
+		" recall last search. If the result window is closed, reopen it.
+		" noremap go :<C-U>Leaderf! rg --recall<CR>
+
+
+		" search word under cursor in *.h and *.cpp files.
+		" noremap <Leader>a :<C-U><C-R>=printf("Leaderf! rg -e %s -g *.h -g *.cpp", expand("<cword>"))<CR>
+		" the same as above
+		" noremap <Leader>a :<C-U><C-R>=printf("Leaderf! rg -e %s -g *.{h,cpp}", expand("<cword>"))<CR>
+
+		" search word under cursor in cpp and java files.
+		" noremap <Leader>b :<C-U><C-R>=printf("Leaderf! rg -e %s -t cpp -t java", expand("<cword>"))<CR>
+
+		" search word under cursor in cpp files, exclude the *.hpp files
+		" noremap <Leader>c :<C-U><C-R>=printf("Leaderf! rg -e %s -t cpp -g !*.hpp", expand("<cword>"))<CR>
 	else
 		" 不支持 python ，使用 CtrlP 代替
 		Plug 'ctrlpvim/ctrlp.vim'
@@ -663,9 +703,9 @@ if index(g:bundle_group, 'coc') >= 0
 
 	let g:coc_global_extensions =
 				\ [
+				\ 'coc-vimlsp',
 				\ 'coc-python',
 				\ 'coc-tsserver',
-				\ 'coc-java',
 				\ 'coc-vimtex',
 				\ 'coc-html',
 				\ 'coc-css',
@@ -675,14 +715,10 @@ if index(g:bundle_group, 'coc') >= 0
 				\ 'coc-snippets',
 				\ 'coc-emoji',
 				\ 'coc-highlight',
-				\ 'coc-git',
 				\ 'coc-ccls',
 				\ 'coc-sh',
+				\ 'coc-rust-analyzer',
 				\ ]
-				" \ 'coc-java',
-				" \ 'coc-diagnostic',
-				" \ 'coc-prettier',
-				" \ 'coc-pairs',
 
 	" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 	" 使用ctrl j ctrl k来跳转补全块
@@ -714,6 +750,8 @@ if index(g:bundle_group, 'coc') >= 0
 
 	" 定义跳转
 	nmap <silent> gd <Plug>(coc-definition)
+	" nmap <silent> gd :call CocAction('jumpDefinition', 'vsplit')
+	" nmap <silent> gd :vsp<CR><Plug>(coc-definition)
 	nmap <silent> gy <Plug>(coc-type-definition)
 	nmap <silent> gi <Plug>(coc-implementation)
 	nmap <silent> gr <Plug>(coc-references)
@@ -786,16 +824,7 @@ if index(g:bundle_group, 'coc') >= 0
 
 endif
 
-Plug 'lifepillar/vim-colortemplate'
-
-"----------------------------------------------------------------------
-" 结束插件安装
-"----------------------------------------------------------------------
-call plug#end()
-
-
-
-if index(g:bundle_group, 'basic') >= 0
+if index(g:bundle_group, 'ycm') >= 0
 "----------------------------------------------------------------------
 " YouCompleteMe 默认设置：YCM 需要你另外手动编译安装
 "----------------------------------------------------------------------
@@ -819,7 +848,6 @@ let g:ycm_semantic_triggers =  {
 			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
 			\ 'cs,lua,javascript': ['re!\w{2}'],
 			\ }
-
 
 "----------------------------------------------------------------------
 " Ycm 白名单（非名单内文件不启用 YCM），避免打开个 1MB 的 txt 分析半天
@@ -879,4 +907,21 @@ let g:ycm_filetype_whitelist = {
 			\ "ps1":1,
 			\ }
 endif
+
+
+
+if index(g:bundle_group, 'theme') >= 0
+" Plug 'lifepillar/vim-colortemplate'
+
+"----------------------------------------------------------------------
+" Plug 'tomasiser/vim-code-dark'
+"----------------------------------------------------------------------
+Plug 'tomasiser/vim-code-dark'
+
+endif
+
+"----------------------------------------------------------------------
+" 结束插件安装
+"----------------------------------------------------------------------
+call plug#end()
 
