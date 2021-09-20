@@ -596,9 +596,6 @@ if index(g:bundle_group, 'leaderf') >= 0
 		" 最大历史文件保存 2048 个
 		let g:Lf_MruMaxFiles = 2048
 
-		" LeaderF 窗口的位置
-		let g:Lf_WindowPosition = 'popup'
-
 		" ui 定制
 		let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
 
@@ -624,6 +621,12 @@ if index(g:bundle_group, 'leaderf') >= 0
 		let g:Lf_MruFileExclude = ['*.so', '*.exe', '*.py[co]', '*.sw?', '~$*', '*.bak', '*.tmp', '*.dll']
 		let g:Lf_StlColorscheme = 'powerline'
 
+		" LeaderF 窗口的位置
+		let g:Lf_WindowPosition = 'popup'
+
+		" 在弹出窗口中预览
+		let g:Lf_PreviewInPopup = 1
+
 		" 禁用 function/buftag 的预览功能，可以手动用 p 预览
 		let g:Lf_PreviewResult = {'Function':0, 'BufTag':0}
 
@@ -637,7 +640,7 @@ if index(g:bundle_group, 'leaderf') >= 0
 				\ "Function": [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<cr>']],
 				\ }
 		" 在根目录搜索光标下的单词, 正则模式, 然后进入normal 模式
-		noremap <F2> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
+		noremap <F3> :<C-U><C-R>=printf("Leaderf! rg -e %s ", expand("<cword>"))<CR>
 
 		" 在当前buffer搜索光标下的单词, 正则模式, 然后进入normal 模式
 		" noremap <C-B> :<C-U><C-R>=printf("Leaderf! rg -F --current-buffer -e %s ", expand("<cword>"))<CR>
@@ -713,11 +716,13 @@ if index(g:bundle_group, 'coc') >= 0
 				\ 'coc-json',
 				\ 'coc-emmet',
 				\ 'coc-snippets',
-				\ 'coc-emoji',
 				\ 'coc-highlight',
 				\ 'coc-ccls',
 				\ 'coc-sh',
 				\ 'coc-rust-analyzer',
+				\ 'coc-syntax',
+				\ 'coc-word',
+				\ 'coc-emoji',
 				\ ]
 
 	" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
@@ -917,6 +922,11 @@ if index(g:bundle_group, 'theme') >= 0
 " Plug 'tomasiser/vim-code-dark'
 "----------------------------------------------------------------------
 Plug 'tomasiser/vim-code-dark'
+
+endif
+
+if index(g:bundle_group, 'git-messenger') >= 0
+Plug 'rhysd/git-messenger.vim'
 
 endif
 
