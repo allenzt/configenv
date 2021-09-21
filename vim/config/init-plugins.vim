@@ -420,28 +420,6 @@ if index(g:bundle_group, 'airline') >= 0
 	let g:airline#extensions#vimagit#enabled = 0
 endif
 
-"----------------------------------------------------------------------
-" lightline
-"----------------------------------------------------------------------
-if index(g:bundle_group, 'lightline') >= 0
-	Plug 'itchyny/lightline.vim'
-	Plug 'ap/vim-buftabline'
-	let g:lightline = {
-		  \ 'colorscheme': 'codedark',
-		  \ 'active': {
-		  \   'left': [ [ 'mode', 'paste' ],
-		  \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
-		  \ },
-		  \ 'component': {
-		  \   'paste': '%{&paste?"PASTE":""}',
-		  \ },
-		  \ }
-	let g:lightline.enable = {
-		\ 'statusline': 1,
-		\ 'tabline': 1
-		\ }
-endif
-
 
 "----------------------------------------------------------------------
 " NERDTree
@@ -552,17 +530,6 @@ if index(g:bundle_group, 'ale') >= 0
 		let g:ale_linters.cpp += ['clang']
 	endif
 endif
-
-
-"----------------------------------------------------------------------
-" echodoc：搭配 YCM/deoplete 在底部显示函数参数
-"----------------------------------------------------------------------
-if index(g:bundle_group, 'echodoc') >= 0
-	Plug 'Shougo/echodoc.vim'
-	set noshowmode
-	let g:echodoc#enable_at_startup = 1
-endif
-
 
 "----------------------------------------------------------------------
 " LeaderF：CtrlP / FZF 的超级代替者，文件模糊匹配，tags/函数名 选择
@@ -913,21 +880,39 @@ let g:ycm_filetype_whitelist = {
 			\ }
 endif
 
-
-
+"----------------------------------------------------------------------
+" colorscheme
+"----------------------------------------------------------------------
 if index(g:bundle_group, 'theme') >= 0
-" Plug 'lifepillar/vim-colortemplate'
+	" Plug 'lifepillar/vim-colortemplate'
+	Plug 'tomasiser/vim-code-dark'
+	" Plug 'dunstontc/vim-vscode-theme'
+endif
 
 "----------------------------------------------------------------------
-" Plug 'tomasiser/vim-code-dark'
+" lightline
 "----------------------------------------------------------------------
-Plug 'tomasiser/vim-code-dark'
-
+if index(g:bundle_group, 'lightline') >= 0
+	Plug 'itchyny/lightline.vim'
+	Plug 'ap/vim-buftabline'
+	let g:lightline = {
+		  \ 'colorscheme': 'codedark',
+		  \ 'active': {
+		  \   'left': [ [ 'mode', 'paste' ],
+		  \             [ 'readonly', 'filename', 'modified', 'helloworld' ] ]
+		  \ },
+		  \ 'component': {
+		  \   'paste': '%{&paste?"PASTE":""}',
+		  \ },
+		  \ }
+	let g:lightline.enable = {
+		\ 'statusline': 1,
+		\ 'tabline': 1
+		\ }
 endif
 
 if index(g:bundle_group, 'git-messenger') >= 0
-Plug 'rhysd/git-messenger.vim'
-
+	Plug 'rhysd/git-messenger.vim'
 endif
 
 "----------------------------------------------------------------------
