@@ -25,6 +25,7 @@ if !exists('g:bundle_group')
 						\ 'coc', 
 						\ 'lightline', 
 						\ 'theme', 
+						\ 'git-messenger', 
 						\ ]
 endif
 
@@ -912,7 +913,17 @@ if index(g:bundle_group, 'lightline') >= 0
 endif
 
 if index(g:bundle_group, 'git-messenger') >= 0
+if has('nvim')
 	Plug 'rhysd/git-messenger.vim'
+endif
+endif
+
+"----------------------------------------------------------------------
+" nvim-treesitter
+"----------------------------------------------------------------------
+if has('nvim')
+	Plug 'nvim-treesitter/nvim-treesitter'
+	let g:c_syntax_for_h = 1
 endif
 
 "----------------------------------------------------------------------
@@ -920,3 +931,23 @@ endif
 "----------------------------------------------------------------------
 call plug#end()
 
+if has('nvim')
+	lua <<EOF
+	require'nvim-treesitter.configs'.setup {
+		ensure_installed = "c", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+		ignore_install = { "javascript" }, -- List of parsers to ignore installing
+		highlight = {
+			enable = true,              -- false will disable the whole extension
+		},
+		highlight = {
+			enable = true
+		},
+		textobjects = {
+			enable = true
+		},
+		indent = {
+			enable = true
+		},
+	}
+EOF
+endif
