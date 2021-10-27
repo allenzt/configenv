@@ -17,7 +17,8 @@ install_utilities(){
 	}
 	tar -cvf - tools | tar -xvf - -C $HOME
 
-	sudo apt install curl git tig tmux universal-ctags global expect bear global -y --no-install-recommends
+	sudo apt install build-essential -y --no-install-recommends
+	sudo apt install curl git tig tmux universal-ctags global expect bear global autoconf -y --no-install-recommends
 
 	case "$DISTRO_SUPPORT" in
 		Ubuntu-16.04)
