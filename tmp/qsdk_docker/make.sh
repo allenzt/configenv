@@ -13,10 +13,7 @@ COMPILE_COMMAND='
 	&& make V=s 2>&1 | tee log
 '
 
-#Please copy 0001-fix-qca-hostap-prebuilt-issue.patch and qsdk-for-fara-release-20220325-v1.tar.gz 
-#to this directory
-
-[ -f ./qsdk-for-fara-release-20220325-v1.tar.gz -a -f qsdk-for-fara-release-20220325-v1.tar.gz ] || {
+[ -f ./0001-fix-qca-hostap-prebuilt-issue.patch -a -f qsdk-for-fara-release-20220325-v1.tar.gz ] || {
 	echo "\033[31mPlease copy 0001-fix-qca-hostap-prebuilt-issue.patch and qsdk-for-fara-release-20220325-v1.tar.gz to this directory ...\033[0m"
 	exit
 }
