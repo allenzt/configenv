@@ -7,6 +7,9 @@ distro_version=$(cat /etc/lsb-release  | grep DISTRIB_RELEASE | awk -F= '{print 
 
 #install dependency
 case ${distro_version} in
+	"22.04")
+		sudo apt install libncurses5-dev python3-dev ruby-dev lua5.4 liblua5.4-dev libperl-dev git -y
+		;;
 	"20.04"|"20.10")
 		sudo apt install libncurses5-dev python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git -y
 		;;
