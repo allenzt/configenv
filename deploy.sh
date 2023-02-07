@@ -17,7 +17,9 @@ install_utilities(){
 	}
 	tar -cvf - tools | tar -xvf - -C $HOME
 
-	sudo apt install build-essential -y --no-install-recommends
+	[ -n ${DEF_PASSWD} ] || export DEF_PASSWD=123346
+
+	echo ${DEF_PASSWD} | sudo apt install build-essential -y --no-install-recommends
 	sudo apt install curl git tig tmux universal-ctags global expect bear global autoconf -y --no-install-recommends
 
 	case "$DISTRO_SUPPORT" in
