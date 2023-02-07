@@ -87,10 +87,10 @@ configure_gitconfig(){
 	#configure git setttings
 	echo "Configure git setttings..."
 
-	read -p "user name for git" username
+	read -p "user name for git" -t 5 username
 	username=${username:-dengzt}
 
-	read -p "user email for git" useremail
+	read -p "user email for git" -t 5 useremail
 	useremail=${useremail:-allen.zt.d@gmail.com}
 
 	git config --global user.name $username
