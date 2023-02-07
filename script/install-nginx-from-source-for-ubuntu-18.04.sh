@@ -1,5 +1,7 @@
 #!/bin/bash
 
+. ./function.sh
+
 # download pkg
 # nginx version 1.19.2
 wget https://nginx.org/download/nginx-1.19.2.tar.gz && tar zxvf nginx-1.19.2.tar.gz
@@ -15,7 +17,7 @@ wget https://www.openssl.org/source/openssl-1.1.1g.tar.gz && tar xzvf openssl-1.
 
 
 # install dependency
-sudo apt install -y perl libperl-dev libgd3 libgd-dev libgeoip1 libgeoip-dev geoip-bin libxml2 libxml2-dev libxslt1.1 libxslt1-dev
+sudo_wrapper apt install -y perl libperl-dev libgd3 libgd-dev libgeoip1 libgeoip-dev geoip-bin libxml2 libxml2-dev libxslt1.1 libxslt1-dev
 
 # clean up *.tar.gz
 rm -rf *.tar.gz
@@ -24,8 +26,8 @@ cd ~/nginx-1.19.2
 
 tree -L 2 .
 
-sudo cp ~/nginx-1.19.2/man/nginx.8 /usr/share/man/man8
-sudo gzip /usr/share/man/man8/nginx.8
+sudo_wrapper cp ~/nginx-1.19.2/man/nginx.8 /usr/share/man/man8
+sudo_wrapper gzip /usr/share/man/man8/nginx.8
 ls /usr/share/man/man8/ | grep nginx.8.gz
 # Check that man page for Nginx is working
 man nginx
@@ -94,6 +96,6 @@ man nginx
 
 make
 
-# sudo ake install
+# sudo_wrapper ake install
 
-# sudo ln -s /usr/lib/nginx/modules /etc/nginx/modules
+# sudo_wrapper ln -s /usr/lib/nginx/modules /etc/nginx/modules

@@ -1,12 +1,15 @@
 #!/bin/sh
-#Install clang+llvm
-sudo apt update
-sudo apt-get install zlib1g zlib1g-dev libclang-8-dev
-sudo apt install clang-8
-sudo apt install cmake
 
-sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-8 50
-sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-8 50
+. ./function.sh
+
+#Install clang+llvm
+sudo_wrapper apt update
+sudo_wrapper apt-get install zlib1g zlib1g-dev libclang-8-dev
+sudo_wrapper apt install clang-8
+sudo_wrapper apt install cmake
+
+sudo_wrapper update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-8 50
+sudo_wrapper update-alternatives --install /usr/bin/clang clang /usr/bin/clang-8 50
 
 #Install ccls
 git clone --depth=1 --recursive https://github.com/MaskRay/ccls

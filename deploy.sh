@@ -1,5 +1,9 @@
 #!/bin/sh
 
+sudo_wrapper(){
+	echo $DEF_PASSWD | sudo -S -k $@
+}
+
 install_utilities(){
 
 	local distro_support=$1
@@ -19,26 +23,26 @@ install_utilities(){
 
 	[ -n ${DEF_PASSWD} ] || export DEF_PASSWD=123346
 
-	echo ${DEF_PASSWD} | sudo apt install build-essential -y --no-install-recommends
-	sudo apt install curl git tig tmux universal-ctags global expect bear global autoconf -y --no-install-recommends
+	sudo_wrapper apt install build-essential -y --no-install-recommends
+	sudo_wrapper apt install curl git tig tmux universal-ctags global expect bear global autoconf -y --no-install-recommends
 
 	case "$DISTRO_SUPPORT" in
 		Ubuntu-16.04)
 			#Install tmux
-			sudo add-apt-repository ppa:bundt/backports -y
-			sudo apt update
-			sudo apt install tmux=3.1c-ppa-xenial1
+			sudo_wrapper add-apt-repository ppa:bundt/backports -y
+			sudo_wrapper apt update
+			sudo_wrapper apt install tmux=3.1c-ppa-xenial1
 
 			#Install global
-			sudo add-apt-repository ppa:alexmurray/global -y
-			sudo apt update
-			sudo apt install global=6.5.7-1~bpo16.04+1
+			sudo_wrapper add-apt-repository ppa:alexmurray/global -y
+			sudo_wrapper apt update
+			sudo_wrapper apt install global=6.5.7-1~bpo16.04+1
 		;;
 		Ubuntu-18.04)
 			#Install tmux
-			sudo add-apt-repository ppa:bundt/backports -y
-			sudo apt update
-			sudo apt install tmux=3.1c-1ppa~bionic1
+			sudo_wrapper add-apt-repository ppa:bundt/backports -y
+			sudo_wrapper apt update
+			sudo_wrapper apt install tmux=3.1c-1ppa~bionic1
 		;;
 		*)
 			apt install tmux global -y --no-install-recommends
@@ -119,20 +123,20 @@ configure_vim(){
 	#Install ccls and Nodejs for ubuntu 16.04
 	case "${DISTRO_ID}-${DISTRO_RELEASE}" in
 	    Ubuntu-20.04|Ubuntu-20.10|Ubuntu-21.04)
-		sudo apt install ccls -y
-		curl -sL install-node.now.sh/lts | sudo bash
+		sudo_wrapper apt install ccls -y
+		curl -sL install-node.now.sh/lts | sudo_wrapper bash
 		;;
 	    Ubuntu-18.04)
 		echo "Install ccls for $distro_support"
 		# ./script/install-ccls-from-source-for-ubuntu-18.04.sh
 		(cd $HOME/tools && ln -sf ccls-ubuntu-18.04 ccls)
-		curl -sL install-node.now.sh/lts | sudo bash
+		curl -sL install-node.now.sh/lts | sudo_wrapper bash
 		;;
 	    Ubuntu-16.04)
 		echo "Install ccls for Ubuntu 16.04"
 		# ./script/install-ccls-from-source-for-ubuntu-16.04.sh
 		(cd $HOME/tools && ln -sf ccls-ubuntu-16.04 ccls)
-		curl -sL install-node.now.sh/lts | sudo bash
+		curl -sL install-node.now.sh/lts | sudo_wrapper bash
 		;;
 	    *)
 		echo "Unspported DISTRO version, exit ..."
@@ -141,7 +145,7 @@ configure_vim(){
 	esac
 
 	cd ${HOME}/.config/coc/extensions/node_modules/coc-ccls && ln -sf node_modules/ws/lib
-	sudo npm i -g bash-language-server
+	sudo_wrapper npm i -g bash-language-server
 
 	#rmmove vim config directory first
 	rm -rf $HOEM/.vim
