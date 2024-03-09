@@ -124,19 +124,26 @@ configure_vim(){
 	case "${DISTRO_ID}-${DISTRO_RELEASE}" in
 	    Ubuntu-20.04|Ubuntu-20.10|Ubuntu-21.04)
 		sudo_wrapper apt install ccls -y
-		curl -sL install-node.now.sh/lts | sudo_wrapper bash
+		curl -sL install-node.now.sh/lts -o node-install.sh
+		sed -i -e 's/confirm/#confirm/g' node-install.sh
+		sudo_wrapper bash node-install.sh
 		;;
 	    Ubuntu-18.04)
 		echo "Install ccls for $distro_support"
 		# ./script/install-ccls-from-source-for-ubuntu-18.04.sh
 		(cd $HOME/tools && ln -sf ccls-ubuntu-18.04 ccls)
-		curl -sL install-node.now.sh/lts | sudo_wrapper bash
+		curl -sL install-node.now.sh/lts -o node-install.sh
+		sed -i -e 's/confirm/#confirm/g' node-install.sh
+		sudo_wrapper bash node-install.sh
 		;;
 	    Ubuntu-16.04)
 		echo "Install ccls for Ubuntu 16.04"
 		# ./script/install-ccls-from-source-for-ubuntu-16.04.sh
 		(cd $HOME/tools && ln -sf ccls-ubuntu-16.04 ccls)
 		curl -sL install-node.now.sh/lts | sudo_wrapper bash
+		curl -sL install-node.now.sh/lts -o node-install.sh
+		sed -i -e 's/confirm/#confirm/g' node-install.sh && chmode 755 node-install.sh
+		bash node-install.sh
 		;;
 	    *)
 		echo "Unspported DISTRO version, exit ..."
