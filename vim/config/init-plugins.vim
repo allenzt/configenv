@@ -633,6 +633,12 @@ if index(g:bundle_group, 'leaderf') >= 0
 
 		" search word under cursor in cpp files, exclude the *.hpp files
 		" noremap <Leader>c :<C-U><C-R>=printf("Leaderf! rg -e %s -t cpp -g !*.hpp", expand("<cword>"))<CR>
+		" Show icons, icons are shown by default
+		let g:Lf_ShowDevIcons = 0 
+		" For GUI vim, the icon font can be specify like this, for example
+		" let g:Lf_DevIconsFont = "DroidSansM Nerd Font Mono"
+		" If needs
+		" set ambiwidth=double
 	else
 		" 不支持 python ，使用 CtrlP 代替
 		Plug 'ctrlpvim/ctrlp.vim'
@@ -693,13 +699,20 @@ if index(g:bundle_group, 'coc') >= 0
 				\ 'coc-emoji',
 				\ ]
 
+	" use <tab> to trigger completion and navigate to the next complete item
+	function! CheckBackspace() abort
+		let col = col('.') - 1
+		return !col || getline('.')[col - 1]  =~# '\s'
+	endfunction
+
 	" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-	" 使用ctrl j ctrl k来跳转补全块
-	inoremap <silent><expr> <TAB>
-		\ pumvisible() ? "\<C-n>" :
-		\ <SID>check_back_space() ? "\<TAB>" :
-		\ coc#refresh()
-	inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+	inoremap <silent><expr> <Tab>
+				\ coc#pum#visible() ? coc#pum#next(1) :
+				\ CheckBackspace() ? "\<Tab>" :
+				\ coc#refresh()
+
+	inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+	inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 	function! s:check_back_space() abort
 	let col = col('.') - 1
@@ -729,15 +742,16 @@ if index(g:bundle_group, 'coc') >= 0
 	nmap <silent> gi <Plug>(coc-implementation)
 	nmap <silent> gr <Plug>(coc-references)
 
-	" Use K to show documentation in preview window
-	" function! s:show_documentation()
-	"   if (index(['vim','help'], &filetype) >= 0)
-	"     execute 'h '.expand('<cword>')
-	"   else
-	"     call CocAction('doHover')
-	"   endif
+	" function! ShowDocumentation()
+	" 	if CocAction('hasProvider', 'hover')
+	" 		call CocActionAsync('doHover')
+	" 	else
+	" 		call feedkeys('K', 'in')
+	" 	endif
 	" endfunction
-	" nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+	" " Use K to show documentation in preview window
+	" nnoremap <silent> K :call ShowDocumentation()<CR>
 
 	" nnoremap <silent> <space>k :call CocActionAsync('showSignatureHelp')<CR>
 
@@ -794,7 +808,6 @@ if index(g:bundle_group, 'coc') >= 0
 	nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 	" show coclist
 	nnoremap <silent> <space>l  :<C-u>CocList<CR>
-
 endif
 
 if index(g:bundle_group, 'ycm') >= 0
@@ -925,6 +938,8 @@ if has('nvim')
 	Plug 'nvim-treesitter/nvim-treesitter'
 	let g:c_syntax_for_h = 1
 endif
+
+Plug 'github/copilot.vim'
 
 "----------------------------------------------------------------------
 " 结束插件安装

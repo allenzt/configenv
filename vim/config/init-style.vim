@@ -301,3 +301,7 @@ augroup END
 
 
 
+" au ColorScheme * hi! link CocMenuSel Function
+" au ColorScheme * hi! link CocPumMenu Pmenu
+" au ColorScheme * hi! link CocPumVirtualText Comment
+" autocmd ColorScheme * highlight! default CocMenuSel ctermbg=237 guibg=#13354A
