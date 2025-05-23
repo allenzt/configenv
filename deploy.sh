@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+#set -x
 
 sudo_wrapper(){
 	echo $DEF_PASSWD | sudo -S -k $@
@@ -21,11 +23,6 @@ install_utilities(){
 	}
 	tar -cvf - tools | tar -xvf - -C $HOME
 
-	[ -n ${DEF_PASSWD} ] || export DEF_PASSWD=123346
-
-	sudo_wrapper apt install build-essential -y --no-install-recommends
-	sudo_wrapper apt install curl git tig tmux universal-ctags global expect bear global autoconf -y --no-install-recommends
-
 	case "$DISTRO_SUPPORT" in
 		Ubuntu-16.04)
 			#Install tmux
@@ -44,12 +41,21 @@ install_utilities(){
 			sudo_wrapper apt update
 			sudo_wrapper apt install tmux=3.1c-1ppa~bionic1
 		;;
+		Ubuntu-22.04|Ubuntu-22.04)
+			#Install tmux global
+			sudo_wrapper apt install tmux global -y --no-install-recommends
+		;;
 		*)
-			apt install tmux global -y --no-install-recommends
+			#Install tmux global and python3-pip
+			sudo_wrapper apt install python3-pip tmux global -y --no-install-recommends
 		;;
 	esac
 
+	sudo_wrapper apt install build-essential -y --no-install-recommends
+	sudo_wrapper apt install curl git tig tmux universal-ctags global expect bear global autoconf -y --no-install-recommends
+
 	cp tmux.conf ${HOME}/.tmux.conf
+	cp tigrc ${HOME}/.tigrc
 }
 
 configure_bashrc(){
@@ -87,10 +93,10 @@ configure_gitconfig(){
 	#configure git setttings
 	echo "Configure git setttings..."
 
-	read -p "user name for git" -t 5 username
+	read -p "user name for git: " username
 	username=${username:-dengzt}
 
-	read -p "user email for git" -t 5 useremail
+	read -p "user email for git: " useremail
 	useremail=${useremail:-allen.zt.d@gmail.com}
 
 	git config --global user.name $username
@@ -120,57 +126,56 @@ configure_vim(){
 
 	#configure vim
 	echo "Configure VIM ..."
-	#Install ccls and Nodejs for ubuntu 16.04
+	#Install C/C++ LSP ccls
 	case "${DISTRO_ID}-${DISTRO_RELEASE}" in
-	    Ubuntu-20.04|Ubuntu-20.10|Ubuntu-21.04)
-		sudo_wrapper apt install ccls -y
-		curl -sL install-node.now.sh/lts -o node-install.sh
-		sed -i -e 's/confirm/#confirm/g' node-install.sh
-		sudo_wrapper bash node-install.sh
-		;;
 	    Ubuntu-18.04)
-		echo "Install ccls for $distro_support"
-		# ./script/install-ccls-from-source-for-ubuntu-18.04.sh
-		(cd $HOME/tools && ln -sf ccls-ubuntu-18.04 ccls)
-		curl -sL install-node.now.sh/lts -o node-install.sh
-		sed -i -e 's/confirm/#confirm/g' node-install.sh
-		sudo_wrapper bash node-install.sh
+			echo "Install ccls for $distro_support"
+			# ./script/install-ccls-from-source-for-ubuntu-18.04.sh
+			(cd $HOME/tools && ln -sf ccls-ubuntu-18.04 ccls)
+			curl -sL install-node.now.sh/lts -o node-install.sh
+			sed -i -e 's/confirm/#confirm/g' node-install.sh
+			sudo_wrapper bash node-install.sh
 		;;
 	    Ubuntu-16.04)
-		echo "Install ccls for Ubuntu 16.04"
-		# ./script/install-ccls-from-source-for-ubuntu-16.04.sh
-		(cd $HOME/tools && ln -sf ccls-ubuntu-16.04 ccls)
-		curl -sL install-node.now.sh/lts | sudo_wrapper bash
-		curl -sL install-node.now.sh/lts -o node-install.sh
-		sed -i -e 's/confirm/#confirm/g' node-install.sh && chmode 755 node-install.sh
-		bash node-install.sh
+			echo "Install ccls for Ubuntu 16.04"
+			# ./script/install-ccls-from-source-for-ubuntu-16.04.sh
+			(cd $HOME/tools && ln -sf ccls-ubuntu-16.04 ccls)
+			curl -sL install-node.now.sh/lts -o node-install.sh
+			sed -i -e 's/confirm/#confirm/g' node-install.sh && chmode 755 node-install.sh
+			bash node-install.sh
 		;;
 	    *)
-		echo "Unspported DISTRO version, exit ..."
-		exit
+			sudo_wrapper apt install ccls -y
 		;;
 	esac
 
-	cd ${HOME}/.config/coc/extensions/node_modules/coc-ccls && ln -sf node_modules/ws/lib
-	sudo_wrapper npm i -g bash-language-server
+	#Install Nodejs for Coc.nvim
+	if [ -z "$(node -v 2> /dev/null)" ]; then
+		echo "================================================="
+		echo "NOTE: Please Install NodeJS manually"
+		echo "e.g. sudo_wrapper tar -Jxv -f ${HOME}/Downloads/node-v22.16.0-linux-x64.tar.xz --strip-components=ponents=1 -C /usr/local"
+		echo "================================================="
+	fi
 
-	#rmmove vim config directory first
-	rm -rf $HOEM/.vim
+	if [ ! -f "${HOME}/.vim" ]; then
+		vimrc_file="$HOME/.vimrc"
+		vim_dir="$HOME/.vim"
 
-	vimrc_file="$HOME/.vimrc"
-	vim_dir="$HOME/.vim"
+		[ -f $vimrc_file ] && {
+			rm -rf $vimrc_file
+		}
 
-	[ -f $vimrc_file ] && {
-	    rm -rf $vimrc_file
-	}
-	ln -sf $vim_dir/init.vim $HOME/.vimrc
+		ln -sf $vim_dir/init.vim $HOME/.vimrc
 
-	[ -f $vim_dir ] && {
-	    rm -rf $vim_dir
-	}
+		[ -f $vim_dir ] && {
+			rm -rf $vim_dir
+		}
 
-	tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
+		tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
 
+		cd ${HOME}/.config/coc/extensions/node_modules/coc-ccls && ln -sf node_modules/ws/lib
+		sudo_wrapper npm i -g bash-language-server
+	fi
 }
 
 
@@ -179,7 +184,7 @@ DISTRO_ID=$(cat /etc/lsb-release  | grep DISTRIB_ID | awk -F= '{print $NF}')
 DISTRO_RELEASE=$(cat /etc/lsb-release  | grep DISTRIB_RELEASE | awk -F= '{print $NF}')
 
 case "${DISTRO_ID}-${DISTRO_RELEASE}" in
-    Ubuntu-21.04|Ubuntu-20.04|Ubuntu-20.10|Ubuntu-18.04|Ubuntu-16.04)
+      Ubuntu-24.04|Ubuntu-22.04Ubuntu-21.04|Ubuntu-20.04|Ubuntu-20.10|Ubuntu-18.04|Ubuntu-16.04)
 	    DISTRO_SUPPORT="${DISTRO_ID}-${DISTRO_RELEASE}"
 	;;
     *)
@@ -189,6 +194,11 @@ esac
 
 if [ -z "${DISTRO_SUPPORT}" ]; then
 	echo "${DISTRO_ID}-${DISTRO_RELEASE} is not be supported, exit ..."
+	exit
+fi
+
+if [ -z "${DEF_PASSWD}" ]; then
+	echo "Please export DEF_PASSWD..."
 	exit
 fi
 

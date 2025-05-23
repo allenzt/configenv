@@ -9,6 +9,9 @@ distro_version=$(cat /etc/lsb-release  | grep DISTRIB_RELEASE | awk -F= '{print 
 
 #install dependency
 case ${distro_version} in
+	"24.04")
+		sudo_wrapper apt install libncurses5-dev python3-dev ruby-dev lua5.4 liblua5.4-dev libperl-dev git -y
+		;;
 	"22.04")
 		sudo_wrapper apt install libncurses5-dev python3-dev ruby-dev lua5.4 liblua5.4-dev libperl-dev git -y
 		;;
@@ -60,4 +63,4 @@ sudo_wrapper checkinstall -D --pkgname vimzt --pkgversion ${VIM_VER} -y
 #error in 'Version' field string 'source-1': version number does not start with digit
 
 cd ~
-sudo_wrapper rm -rf vim-source
+#sudo_wrapper rm -rf vim-source

@@ -48,5 +48,10 @@ LoadScript config/init-style.vim
 " 自定义按键
 LoadScript config/init-keymaps.vim
 
-
+" 检查插件是否存在，不存在则执行 PlugInstall 并在完成后退出 Vim
+autocmd VimEnter *
+  \ if empty(glob('~/.vim/bundles/coc.nvim')) |
+  \   silent! execute 'PlugInstall --sync' |
+  \   qa |
+  \ endif
 
