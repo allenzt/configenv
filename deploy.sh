@@ -1,6 +1,35 @@
 #!/bin/bash
 
-#set -x
+# 定义颜色代码
+COLOR_RESET='\033[0m'      # 重置颜色
+COLOR_RED='\033[0;31m'     # 红色
+COLOR_YELLOW='\033[0;33m'  # 黄色
+COLOR_GREEN='\033[0;32m'   # 绿色
+COLOR_BLUE='\033[0;34m'    # 蓝色
+
+# 日志函数（时间格式：[YYYY-MM-DD HH:MM:SS]）
+log_info() {
+    local timestamp=$(date +"[%Y-%m-%d %H:%M:%S]")
+    echo -e "${COLOR_GREEN}[INFO ]${COLOR_RESET} ${timestamp}: $@"
+}
+
+log_warn() {
+    local timestamp=$(date +"[%Y-%m-%d %H:%M:%S]")
+    echo -e "${COLOR_YELLOW}[WARN ]${COLOR_RESET} ${timestamp}: $@" >&2
+}
+
+log_error() {
+    local timestamp=$(date +"[%Y-%m-%d %H:%M:%S]")
+    echo -e "${COLOR_RED}[ERROR]${COLOR_RESET} ${timestamp}: $@" >&2
+}
+
+# 可选：调试日志（仅在 DEBUG=true 时显示）
+log_debug() {
+    if [[ "${DEBUG}" == "true" ]]; then
+        local timestamp=$(date +"[%Y-%m-%d %H:%M:%S]")
+        echo -e "${COLOR_BLUE}[DEBUG]${COLOR_RESET} ${timestamp}: $@"
+    fi
+}
 
 sudo_wrapper(){
 	echo $DEF_PASSWD | sudo -S -k $@
@@ -16,12 +45,12 @@ install_utilities(){
 	}
 
 	#Install some utilities
-	echo "Install some utilities ..."
+	log_info "Install some utilities ..."
 	tools_dir="$HOME/tools"
 	[ -d $tools_dir ] && {
 	    rm -rf $tools_dir
 	}
-	tar -cvf - tools | tar -xvf - -C $HOME
+	tar -cf - tools | tar -xf - -C $HOME
 
 	case "$DISTRO_SUPPORT" in
 		Ubuntu-16.04)
@@ -41,7 +70,7 @@ install_utilities(){
 			sudo_wrapper apt update
 			sudo_wrapper apt install tmux=3.1c-1ppa~bionic1
 		;;
-		Ubuntu-22.04|Ubuntu-22.04)
+		Ubuntu-22.04)
 			#Install tmux global
 			sudo_wrapper apt install tmux global -y --no-install-recommends
 		;;
@@ -61,43 +90,54 @@ install_utilities(){
 configure_bashrc(){
 	#check if it is configured
 	[ -z "$(grep 'begin:user custom definition' ~/.bashrc)" ] || {
-		echo "bashrc is configured, skip"
+		log_warn "bashrc is configured, skip"
 		return
 	}
 
 	#configure bashrc for bash
-	echo "Add custom changes to .bashrc file ..."
+	log_info "Add custom changes to .bashrc file ..."
 	cp ~/.bashrc bashrc
 	echo "#===========begin:user custom definition=========" >> bashrc
 	echo "alias g='grep -nr --color=auto --exclude-dir=.ccls-cache'" >> bashrc
 	echo "alias rm='rm -i'" >> bashrc
+
+	# highlight for man
+	cat >> bashrc <<'EOF'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+EOF
+
 	#use 256 color
-	echo "alias man=\"LESS_TERMCAP_mb=$'\e[01;31m' LESS_TERMCAP_md=$'\e[01;38;5;170m' LESS_TERMCAP_me=$'\e[0m' LESS_TERMCAP_se=$'\e[0m' LESS_TERMCAP_so=$'\e[38;5;246m' LESS_TERMCAP_ue=$'\e[0m' LESS_TERMCAP_us=$'\e[04;38;5;74m' man\"" >>bashrc
 	echo "source $tools_dir/aliasfile" >> bashrc
-	echo "PATH=$PATH:$tools_dir" >> bashrc
+	echo "PATH=\$PATH:$tools_dir" >> bashrc
 	echo "export EDITOR=vim" >> bashrc
 
-	# cat >> bashrc <<'EOF'
-	# export LESS_TERMCAP_md=$'\E[01;31m'
-	# export LESS_TERMCAP_me=$'\E[0m'
-	# export LESS_TERMCAP_se=$'\E[0m'
-	# export LESS_TERMCAP_so=$'\E[01;44;33m'
-	# export LESS_TERMCAP_ue=$'\E[0m'
-	# export LESS_TERMCAP_us=$'\E[01;32m'
-	# EOF
 	echo "#===========end:user custom definition=========" >> bashrc
 	mv bashrc ~/.bashrc
 }
 
 configure_gitconfig(){
 	#configure git setttings
-	echo "Configure git setttings..."
+	if [ -z "$(grep -q -o "lss = log" $HOME/.gitconfig)" ]; then
+		log_warn "Git settings had been configured..."
+		return
+	fi
 
-	read -p "user name for git: " username
+	log_info "Configure git setttings..."
+
+	read -p "Please input username for git(default: dengzt, timeout: 10s): " -t 10 username
 	username=${username:-dengzt}
 
-	read -p "user email for git: " useremail
+	echo ""
+
+	read -p "Please input email for git(default: allen.zt.d@gmail.com, timeout: 10s): " -t 10 tuseremail
 	useremail=${useremail:-allen.zt.d@gmail.com}
+
+	echo ""
 
 	git config --global user.name $username
 	git config --global user.email $useremail
@@ -129,7 +169,7 @@ configure_vim(){
 	#Install C/C++ LSP ccls
 	case "${DISTRO_ID}-${DISTRO_RELEASE}" in
 	    Ubuntu-18.04)
-			echo "Install ccls for $distro_support"
+			log_info "Install ccls for $distro_support"
 			# ./script/install-ccls-from-source-for-ubuntu-18.04.sh
 			(cd $HOME/tools && ln -sf ccls-ubuntu-18.04 ccls)
 			curl -sL install-node.now.sh/lts -o node-install.sh
@@ -137,7 +177,7 @@ configure_vim(){
 			sudo_wrapper bash node-install.sh
 		;;
 	    Ubuntu-16.04)
-			echo "Install ccls for Ubuntu 16.04"
+			log_info "Install ccls for Ubuntu 16.04"
 			# ./script/install-ccls-from-source-for-ubuntu-16.04.sh
 			(cd $HOME/tools && ln -sf ccls-ubuntu-16.04 ccls)
 			curl -sL install-node.now.sh/lts -o node-install.sh
@@ -151,13 +191,13 @@ configure_vim(){
 
 	#Install Nodejs for Coc.nvim
 	if [ -z "$(node -v 2> /dev/null)" ]; then
-		echo "================================================="
-		echo "NOTE: Please Install NodeJS manually"
-		echo "e.g. sudo_wrapper tar -Jxv -f ${HOME}/Downloads/node-v22.16.0-linux-x64.tar.xz --strip-components=ponents=1 -C /usr/local"
-		echo "================================================="
+		log_info "================================================="
+		log_info "NOTE: Please Install NodeJS manually"
+		log_info "e.g. sudo_wrapper tar -Jxv -f ${HOME}/Downloads/node-v22.16.0-linux-x64.tar.xz --strip-components=ponents=1 -C /usr/local"
+		log_info "================================================="
 	fi
 
-	if [ ! -f "${HOME}/.vim" ]; then
+	if [ ! -d "${HOME}/.vim" ]; then
 		vimrc_file="$HOME/.vimrc"
 		vim_dir="$HOME/.vim"
 
@@ -171,10 +211,12 @@ configure_vim(){
 			rm -rf $vim_dir
 		}
 
-		tar -cvf - vim | tar -xvf - -C $HOME && mv $HOME/vim $HOME/.vim
+		tar -cf - vim | tar -xf - -C $HOME && mv $HOME/vim $HOME/.vim
 
 		cd ${HOME}/.config/coc/extensions/node_modules/coc-ccls && ln -sf node_modules/ws/lib
 		sudo_wrapper npm i -g bash-language-server
+	else
+		log_warn "Vim configuration had been installed..."
 	fi
 }
 
@@ -198,14 +240,21 @@ if [ -z "${DISTRO_SUPPORT}" ]; then
 fi
 
 if [ -z "${DEF_PASSWD}" ]; then
-	echo "Please export DEF_PASSWD..."
-	exit
+	read -s -p "Please input password for administrator: " DEF_PASSWD
+	echo ""
+
+	if [ -z "${DEF_PASSWD}" ]; then
+		echo "Password for administrator is empty..."
+		exit
+	fi
 fi
 
 install_utilities $DISTRO_SUPPORT
 configure_vim $DISTRO_SUPPORT
 configure_bashrc
 configure_gitconfig
+
+log_info "Deploy completed..."
 
 ##### INSTALL END####
 
